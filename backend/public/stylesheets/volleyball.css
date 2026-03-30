@@ -1,0 +1,154 @@
+/* Set default font and background color */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+}
+
+/* Style the table title */
+.table-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 1rem;
+}
+
+/* Style the table */
+.players-table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+}
+
+/* Style the table header */
+.table-header {
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 2px solid #333;
+}
+
+/* Style the table body */
+.player-row td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.player-row:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Add hover effect to table rows */
+.player-row:hover {
+  background-color: #ddd;
+}
+
+
+.sort-select {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.sort-select label,
+.filter-container label {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.sort-select select,
+.filter-container input[type="text"],
+#team-filter {
+  font-size: 1.2rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.sort-select select:focus {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(102, 175, 233, 0.5);
+}
+
+.sort-select select:hover {
+  border-color: #999;
+}
+.content-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 200px;
+}
+.team-header {
+  font-size: 2rem;
+  margin: 1rem;
+}
+
+.team-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.team-item, .team_filter-container{
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+.team-item:hover{
+
+   border-color: #d0d0d0;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}
+
+.team-name {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.team-gender,
+.team-country {
+  margin-bottom: 0.25rem;
+}
+
+.team-members-title {
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.team-members-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.team-member {
+  margin-bottom: 0.25rem;
+}
+.show {
+  background-color: #CCCCCC;
+  border: none;
+  border-radius: 5px;
+  color: #6A6A6A;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.show:hover {
+  color: #fff;
+  background-color: #555;
+}
+

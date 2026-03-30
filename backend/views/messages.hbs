@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <h1>Chat</h1>
+      <form id="chat-form">
+        <div class="input-group mb-3">
+            <input id="chat-input" type="text" class="form-control" placeholder="Enter your message...">
+            <div class="input-group-append">
+            <button class="btn btn-primary" type="submit" disabled>Send</button>
+          </div>
+        </div>
+      </form>
+      <ul id="chat-messages" class="list-group"></ul>
+    </div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  
+  const socket = io();
+  const form = document.getElementById('chat-form');
+  const input = document.getElementById('chat-input');
+  const button = document.querySelector('#chat-form button');
+  const messages = document.getElementById('chat-messages');
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const message = input.value.trim();
+    if (message.length > 0) {
+      button.disabled = true;
+      socket.emit('chat message', message);
+      input.value = '';
+      console.log("hello");
+      //const newMessage=messageController.create({ text: message });
+      //console.log('Message saved:', newMessage);
+    }
+  });
+
+  input.addEventListener('input', () => {
+    button.disabled = input.value.trim().length === 0;
+  });
+
+  socket.on('chat message', (msg) => {
+    const li = document.createElement('li');
+    li.innerText = msg;
+    li.classList.add('list-group-item');
+    messages.appendChild(li);
+    messages.scrollTop = messages.scrollHeight;
+  });
+</script>
+

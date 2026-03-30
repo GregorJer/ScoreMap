@@ -1,0 +1,130 @@
+<h1 class="table-title">Volleyball Players</h1>
+<br>
+<div class="content-container">
+  <div class="sort-select">
+    <label for="sort-by">Sort by:</label>
+    <select id="sort-by">
+      <option value="spike-reach">Spike Reach</option>
+      <option value="block-reach">Block Reach</option>
+      <option value="height">Height</option>
+      <option value="date-of-birth">Date of Birth</option>
+    </select>
+  </div>
+
+  <div class="filter-container">
+    <label for="filter-by-team">Filter:</label>
+    <input type="text" id="filter-by-team">
+  </div>
+  <br>
+
+  <table class="players-table">
+    <thead>
+      <tr>
+        <th class="table-header">Number</th>
+        <th class="table-header">Name</th>
+        <th class="table-header">Position</th>
+        <th class="table-header">Date of Birth</th>
+        <th class="table-header">Height</th>
+        <th class="table-header">Spike Reach</th>
+        <th class="table-header">Block Reach</th>
+        <th class="table-header">Head Coach</th>
+        <th class="table-header">Team</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each volleyball_players}}
+      <tr class="player-row">
+        <td>{{number}}</td>
+        <td>{{name}}</td>
+        <td>{{position}}</td>
+        <td data-date-of-birth>{{toDayMonthYear date_of_birth}}</td>
+        <td data-height>{{height}}</td>
+        <td data-spike-reach>{{spike_reach}}</td>
+        <td data-block-reach>{{block_reach}}</td>
+        <td>{{head_coach}}</td>
+        <td>{{team}}</td>
+
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <br>
+  <a href="/volleyball/players/insert_player"><button class="show">Dodaj igralca</button></a>
+  <br><br>
+</div>
+
+<script>
+  // Add event listener to the select element
+  document.getElementById('sort-by').addEventListener('change', () => {
+    const table = document.querySelector('.players-table');
+    const rows = Array.from(table.querySelectorAll('tbody .player-row'));
+
+    // Get the selected option value
+    const sortBy = document.getElementById('sort-by').value;
+
+    var aValue, bValue;
+    const sortedRows = rows.sort((a, b) => {
+      let aValue, bValue;
+
+      if (sortBy === 'date-of-birth') {
+        // Sort by date of birth
+        const aDate = a.querySelector(`[data-${sortBy}]`).textContent.split('/');
+        aValue = new Date(`${aDate[1]}/${aDate[0]}/${aDate[2]}`);
+        const bDate = b.querySelector(`[data-${sortBy}]`).textContent.split('/');
+        bValue = new Date(`${bDate[1]}/${bDate[0]}/${bDate[2]}`);
+      } else {
+        // Sort by numeric value
+        aValue = parseFloat(a.querySelector(`[data-${sortBy}]`).textContent);
+        bValue = parseFloat(b.querySelector(`[data-${sortBy}]`).textContent);
+      }
+
+      return bValue - aValue;
+    });
+
+
+    const tbody = table.querySelector('tbody');
+    tbody.innerHTML = '';
+
+    sortedRows.forEach(row => {
+      tbody.appendChild(row);
+    });
+  });
+
+
+
+
+
+  const filterInput = document.getElementById('filter-by-team');
+  // Add event listener for input event
+
+  // Add event listener for input event
+  filterInput.addEventListener('input', () => {
+    // Get the input value and convert to lowercase
+    const filterValue = filterInput.value.toLowerCase();
+
+    // Split the input value into an array of terms separated by '||'
+    const filterTerms = filterValue.split('||').map(term => term.trim());
+
+    // Get all player rows
+    const playerRows = document.querySelectorAll('.player-row');
+
+    // Loop through each player row and check if the team or name matches the input value
+    playerRows.forEach(row => {
+      const teamCell = row.querySelector('td:nth-of-type(9)');
+      const teamValue = teamCell.textContent.toLowerCase();
+
+      const nameCell = row.querySelector('td:nth-of-type(2)');
+      const nameValue = nameCell.textContent.toLowerCase();
+
+      // Show or hide the row depending on whether the team or name matches any of the input terms
+      if (filterTerms.some(term => teamValue.includes(term) || nameValue.includes(term))) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  });
+
+
+
+</script>

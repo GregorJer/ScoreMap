@@ -1,0 +1,44 @@
+<h1 class="team-header">Volleyball Teams</h1>
+
+<div class="team_filter-container">
+    <a href="/volleyball/players"><button class="show">Igralci</button></a>
+    <label for="team-filter">Ekipa: </label>
+    <input type="text" id="team-filter">
+</div>
+
+
+<ul class="team-list">
+    {{#each volleyball_teams}}
+    <li class="team-item">
+        <h2 class="team-name">{{name}}</h2>
+        <p class="team-members-title">Team Members:</p>
+        <ul class="team-members-list">
+            {{#each team_members}}
+            <li class="team-member">{{this.name}} ({{this.position}})</li>
+            {{/each}}
+        </ul>
+    </li>
+    {{/each}}
+</ul>
+<script>
+const teamFilterInput = document.querySelector('#team-filter');
+
+teamFilterInput.addEventListener('input', () => {
+
+ 
+
+  const filterValue = teamFilterInput.value.toLowerCase().trim();
+  const teamList = document.querySelector('.team-list');
+  const teamItems = document.querySelectorAll('.team-item');
+  teamItems.forEach(item => {
+    const teamName = item.querySelector('.team-name').textContent.toLowerCase();
+
+    if (teamName.includes(filterValue)) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+});
+
+</script>

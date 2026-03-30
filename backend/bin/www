@@ -1,0 +1,159 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+const messageController = require('../controllers/messageController');
+var app = require('../app');
+var debug = require('debug')('vaja3:server');
+var http = require('http');
+const socketIO = require('socket.io');
+
+
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+const io = socketIO(server, {
+  cors: {
+    origin: ["http://localhost:3000", "http://localhost:3001", "http://20.86.170.170:3001", "http://20.86.170.170:3000"],
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true
+  }
+});
+
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+io.on('connection', (socket) => {
+  console.log('User connected');
+
+  // Handle incoming chat messages
+  // Handle incoming chat messages
+  socket.on('chat message', async (msg) => {
+    console.log(`Received message: ${msg}`);
+
+    var newMessage = {
+      contents: msg.contents,
+      created: new Date(),
+      createdBy: msg.userId,
+      game: msg.gameId,
+      gameType: msg.gameType  // This should be one of 'FootballGame', 'VolleyballGame', 'HandballGame'
+    };
+ 
+    try {
+      const savedMessage = await messageController.create(newMessage);
+      console.log('Message saved:', savedMessage);
+    } catch (error) {
+      console.error('Error saving message:', error);
+    }
+    newMessage.createdBy=msg.username;
+    io.emit('chat message', newMessage);
+  });
+
+
+  // Handle disconnections
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
+/*
+// Add the following lines after the `const io = socketIO(server);`
+const messageController = require('../controllers/messageController');
+io.on('connection', (socket) => {
+  console.log('User connected');
+
+  // Handle incoming chat messages
+  socket.on('chat message', async (msg) => {
+    console.log(`Received message: ${msg}`);
+
+    // Save the message to the database
+    try {
+      const savedMessage = await messageController.create({ body: { contents: msg }, session: { userId: "6458d0615e96a1564063a286" } }, socket);
+      console.log('Message saved:', savedMessage);
+    } catch (error) {
+      console.error('Error saving message:', error);
+    }
+  });
+
+  // ... (rest of the code)
+});
+*/

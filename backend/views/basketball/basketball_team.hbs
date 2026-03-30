@@ -1,0 +1,20 @@
+{{#each basketball_teams}}
+  <div class="team-item">
+      <h2>{{name}}</h2>
+      <p><b>Gender:</b> {{gender}}</p>
+      <p><b>Country:</b> {{country}}</p>
+      <p><b>Head coach:</b> {{head_coach}}</p>
+      <p><b>Players:</b></p>
+      <ul>
+      {{#if team_members.length}}
+        <ul>
+          {{#each team_members}}
+          <li style="list-style: none;" class="team-member">{{this.name}}</li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <p style="font-size: 0.9em;"><em>No team members found.</em></p>
+      {{/if}}
+      </ul>
+  </div>
+{{/each}}

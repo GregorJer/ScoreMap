@@ -1,0 +1,19 @@
+<div class="form-container">
+    <h2 class="form-title">Dodaj ekipo</h2>
+<form method="POST" action="/volleyball">
+  <label for="name">Name:</label>
+  <input type="text" name="name" class="form-input">
+  <label for="gender">Gender:</label>
+  <input type="text" name="gender" class="form-input">
+  <label for="country">Country:</label>
+  <input type="text" name="country" class="form-input">
+  <label for="team_members">Team Members:</label>
+  <select name="team_members" class="form-select" multiple>
+    {{#each players}}
+      <option value="{{this._id}}">{{this.name}}</option>
+    {{/each}}
+  </select>
+  <br>
+  <input type="submit" value="Create Team" class="form-submit">
+</form>
+</div>

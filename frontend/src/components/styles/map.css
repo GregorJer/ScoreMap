@@ -1,0 +1,55 @@
+
+.map-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  .map {
+    height: 90vh;
+    width: 100%;
+  }
+  
+  .map-filter-container {
+    position: absolute;
+    top: 0;
+    right: -33.33%; /* Start offscreen to the left */
+    width: 33.33%; /* One-third of the screen */
+    height: 100vh;
+    background-color: #f8f8f8;
+    overflow-y: auto;
+    z-index: 5000;
+    transition: right 0.3s ease-in-out; /* Add a transition effect for the left property */
+  }
+  
+  .map-filter-container.open {
+    right: 0; /* Move to the center of the screen */
+  }
+  
+  
+  .filter-toggle {
+    display: block;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    cursor: pointer;
+    z-index: 10000;
+  }
+  
+  .filter-toggle-icon {
+    font-size: 1.5rem;
+  }
+  
+  .filter-content {
+    padding: 1rem;
+  }
+  .map-text-filter, .map-clear-filter{
+    width: 100%;
+    margin: 0.3em;
+  }
+  .filter-toggle-invert:hover{
+    cursor: pointer;
+    
+  }
+  .icon {
+    font-size: 1.5em;
+  }
